@@ -1,0 +1,93 @@
+<Project DefaultTargets="UnitTest" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
+	
+	<UsingTask AssemblyFile="$(MSBuildProjectDirectory)\src\packages\xunit.runners.1.9.1\tools\xunit.runner.msbuild.dll" TaskName="Xunit.Runner.MSBuild.xunit" />
+	
+	<PropertyGroup>
+		<Configuration Condition="'$(Configuration)' == ''">Debug</Configuration>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<SourceFolder>$(MSBuildProjectDirectory)\src\</SourceFolder>
+		<SolutionFile>$(SourceFolder)brioche.sln</SolutionFile>
+		<TestOutputFolder>$(SourceFolder)brioche.tests\bin\$(Configuration)\</TestOutputFolder>
+		<TestAssembly>$(TestOutputFolder)brioche.tests.dll</TestAssembly>
+	</PropertyGroup>
+	
+	<PropertyGroup>
+		<CleanDependsOn>
+			$(CleanDependsOn);
+			BeforeClean;
+			CoreClean;
+			AfterClean
+		</CleanDependsOn>
+	</PropertyGroup>
+
+	<Target Name="Clean" DependsOnTargets="$(CleanDependsOn)" />
+	<Target Name="BeforeClean" />
+	<Target Name="AfterClean" />
+	
+	<Target Name="CoreClean" >
+	
+		<Message Text="=========== Clean ===========" Importance="High" />
+
+		<MSBuild 
+			Projects="$(SolutionFile)" 
+			Targets="Clean" 
+			Properties="Configuration=$(Configuration)" 
+			/>
+
+		<Message Text="=========== Clean Done ===========" Importance="High" />
+		
+	</Target>
+	
+	<PropertyGroup>
+		<BuildDependsOn>
+			$(BuildDependsOn);
+			Clean;
+			BeforeBuild;
+			CoreBuild;
+			AfterBuild
+		</BuildDependsOn>
+	</PropertyGroup>
+  
+	<Target Name="Build" DependsOnTargets="$(BuildDependsOn)" />
+	<Target Name="BeforeBuild" />
+	<Target Name="AfterBuild" />
+
+	<Target Name="CoreBuild" >
+
+		<Message Text="=========== $(Configuration) Build ===========" Importance="High" />
+	
+		<MSBuild 
+			Projects="$(SolutionFile)" 
+			Properties="Configuration=$(Configuration)" 
+			/>
+		
+		<Message Text="=========== $(Configuration) Build Done ===========" Importance="High" />
+	
+	</Target>
+	
+	<PropertyGroup>
+		<UnitTestDependsOn>
+			$(UnitTestDependsOn);
+			BeforeUnitTest;
+			CoreUnitTest;
+			AfterUnitTest
+		</UnitTestDependsOn>
+	</PropertyGroup>
+	
+	<Target Name="UnitTest" DependsOnTargets="$(UnitTestDependsOn)" />
+	<Target Name="BeforeUnitTest" DependsOnTargets="Build" />
+	<Target Name="AfterUnitTest" />
+
+	<Target Name="CoreUnitTest" >
+	
+		<Message Text="=========== Unit Tests ===========" Importance="High" />
+	
+		<xunit Assembly="$(TestAssembly)" />
+
+		<Message Text="=========== Unit Tests Done ===========" Importance="High" />
+
+    </Target>
+ 
+</Project>
