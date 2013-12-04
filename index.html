@@ -31,11 +31,6 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <h1>
-<a name="brioche" class="anchor" href="#brioche"><span class="octicon octicon-link"></span></a>brioche</h1>
-
-<p>Example Inversion of Control library.</p>
-
 <p>To use it, create a type registry object and an instance creation object:</p>
 
 <pre><code>var typeRegistry = new SimpleTypeRegistry();
@@ -44,12 +39,17 @@ var instanceCreator = new ResolvingInstanceCreator(typeRegistry);
 
 <p>Then set up the type container depending on whether you want to auto-discover all the composable types we can find:</p>
 
-<pre><code>var container = new AutoTypeContainer("MyNamespace", typeRegistry, instanceCreator);
+<pre><code>var container = new AutoTypeContainer(
+  "MyNamespace", 
+  typeRegistry, 
+  instanceCreator);
 </code></pre>
 
 <p>or add types manually:</p>
 
-<pre><code>var container = new TypeContainer(typeRegistry, instanceCreator);
+<pre><code>var container = new TypeContainer(
+  typeRegistry, 
+  instanceCreator);
 </code></pre>
 
 <p>and register the types you will need:</p>
