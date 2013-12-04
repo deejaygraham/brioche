@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="brioche : Example Inversion of Control library" />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>brioche</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/deejaygraham/brioche">View on GitHub</a>
+
+          <h1 id="project_title">brioche</h1>
+          <h2 id="project_tagline">Example Inversion of Control library</h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/deejaygraham/brioche/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/deejaygraham/brioche/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <h1>
+<a name="brioche" class="anchor" href="#brioche"><span class="octicon octicon-link"></span></a>brioche</h1>
+
+<p>Example Inversion of Control library.</p>
+
+<p>To use it, create a type registry object and an instance creation object:</p>
+
+<pre><code>var typeRegistry = new SimpleTypeRegistry();
+var instanceCreator = new ResolvingInstanceCreator(typeRegistry);
+</code></pre>
+
+<p>Then set up the type container depending on whether you want to auto-discover all the composable types we can find:</p>
+
+<pre><code>var container = new AutoTypeContainer("MyNamespace", typeRegistry, instanceCreator);
+</code></pre>
+
+<p>or add types manually:</p>
+
+<pre><code>var container = new TypeContainer(typeRegistry, instanceCreator);
+</code></pre>
+
+<p>and register the types you will need:</p>
+
+<pre><code>DependencyInjection.Container.Register&lt;ISpeak, Cat&gt;();
+DependencyInjection.Container.Register&lt;ISpeak, Dog&gt;();
+DependencyInjection.Container.Register&lt;ISpeak, Parrot&gt;();
+DependencyInjection.Container.Register&lt;ISpeak, Hydra&gt;();
+</code></pre>
+
+<p>Then set the IoC container:</p>
+
+<pre><code>DependencyInjection.Container = container;
+</code></pre>
+
+<p>Then when you need to create a type:</p>
+
+<pre><code>var speaker = DependencyInjection.Container.Resolve&lt;ISpeak&gt;();
+speaker.Speak();
+</code></pre>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">brioche maintained by <a href="https://github.com/deejaygraham">deejaygraham</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+    
+
+  </body>
+</html>
